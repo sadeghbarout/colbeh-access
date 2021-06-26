@@ -1,10 +1,6 @@
 <?php
 
 return [
-
-	'guard'=>'admin',
-
-
-
+	'guard'=>'', // by default reads from auth.defaults.guard
 
 ];

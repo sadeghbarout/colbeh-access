@@ -23,6 +23,9 @@ class Config {
 
 	public static function guard(): string {
 		$guard = config('access_colbeh.guard');
+		if($guard==''){
+			$guard = config('auth.defaults.guard');
+		}
 		return $guard;
 	}
 

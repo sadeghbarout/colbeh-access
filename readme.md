@@ -1,4 +1,4 @@
-#Installation: 
+# Installation: 
 
 1- Composer require colbeh/access
 
@@ -7,17 +7,22 @@
         
         php artisan vendor:publish --provider="Colbeh\Access\ServiceProvider"
 
-3- Go to config/access_colbeh and set your admin guard to check with permissions
+3- Go to config/access_colbeh and set your admin guard to check with permissions. by default uses default guard that sets in
 
-4- add this HasRoles trait to your admin Model.
+    auth.defaults.guard
+
+4- Add this HasRoles trait to your admin Model.
 
          use HasRoles
 
-5- migrate 
+5- Migrate 
         
         php artisan migrate
         
-6- Go to database/seeders/PermissionsSeeder and add your permissions.
+6- Go to 
+
+        database/seeders/PermissionsSeeder
+ and add your permissions.
 
 7- Seed your permissions
 
@@ -25,23 +30,23 @@
         
 8- Go to App/Http/middleware/CheckPermission.php and add your conditions
 
-#Upgrade:
+# Upgrade:
 
         composer require colbeh/access:x.x.x
         
         
         
         
-#Usage
+# Usage
 
-###Rules
+### Rules
 You can add your rules in
 
          App/Http/middleware/CheckPermission.php
 for every controller and method
  
  
-###Check with gate
+### Check with gate
 If you want to check one permission in blade, you can use "permission" guard
  
 ```blade
@@ -51,7 +56,7 @@ If you want to check one permission in blade, you can use "permission" guard
 ```
 
 
-###Check with helper
+### Check with helper
 If you want to check one permission in code, you can use "hasAccess" method
 
 ```php
@@ -67,7 +72,7 @@ If you want to check one permission in code, you can use "hasAccess" method
 ```
 
 
-###Roles and permissions add,edit
+### Roles and permissions add,edit
 Here is some function to add and edit roles and permissions:
 
  ```php
