@@ -1,0 +1,33 @@
+{
+    "name":"colbeh/access",
+    "description":"laravel package for role permission system",
+    "type":"laravel-package",
+    "keywords":[
+        "laravel",
+        "migration",
+        "admin",
+        "permissions",
+        "roles"
+    ],
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Colbeh software team",
+            "email":"support@colbeh.ir"
+        }
+    ],
+    "require":{
+    },
+    "autoload":{
+        "psr-4":{
+            "Colbeh\\Consts\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Colbeh\\Access\\ServiceProvider"
+            ]
+        }
+    }
+}

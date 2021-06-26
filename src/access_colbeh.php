@@ -1,0 +1,10 @@
+<?php
+
+return [
+
+	'guard'=>'admin',
+
+
+
+
+];
