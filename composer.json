@@ -20,7 +20,7 @@
     },
     "autoload":{
         "psr-4":{
-            "Colbeh\\Consts\\": "src/"
+            "Colbeh\\Access\\": "src/"
         }
     },
     "extra": {

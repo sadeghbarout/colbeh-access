@@ -26,6 +26,7 @@
 8- Go to App/Http/middleware/CheckPermission.php and add your conditions
 
 #Upgrade:
+
         composer require colbeh/access:x.x.x
         
         
