@@ -5,73 +5,71 @@ namespace Colbeh\Access;
 use Colbeh\Access\Exceptions\RoleNotFoundException;
 use Colbeh\Access\Models\Permission;
 use Colbeh\Access\Models\Role;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\Support\Facades\Auth;
 
 class Access {
 
-	public static function roleStore($name,$desc,$permissionIds) {
-		$role = Role::create(['name'=>$name,'desc'=>$desc]);
+	public static function getAdmin($id) {
+		$admin = Config::model()::find($id);
+		if ($admin == null)
+			throw new RoleNotFoundException();
+
+		return $admin;
+	}
+
+
+	public static function getRole($id) {
+		$role = Role::find($id);
+		if ($role == null)
+			throw new RoleNotFoundException();
+
+		return $role;
+	}
+
+
+	public static function roleStore($name, $desc, $permissionIds) {
+		$role = Role::create(['name' => $name, 'desc' => $desc]);
 		$role->permissions()->sync($permissionIds);
 
 		return $role;
 	}
 
 
-	public static function roleUpdate($id,$name,$desc,$permissionIds=null) {
-		$role= Role::find($id);
-		if($role==null)
-			throw new RoleNotFoundException();
+	public static function roleUpdate($roleId, $name, $desc, $permissionIds = null) {
+		$role = self::getRole($roleId);
 
-		$role->update(['name'=>$name,'desc'=>$desc]);
+		$role->update(['name' => $name, 'desc' => $desc]);
 
-		if($permissionIds)
+		if ($permissionIds)
 			$role->permissions()->sync($permissionIds);
 
 		return $role;
 	}
 
-	public static function permissionToggle($id,$permissionId) {
-		$role= Role::find($id);
-		if($role==null)
-			throw new RoleNotFoundException();
 
-		$role->permissions()->toggle($permissionId);
+	public static function roleToggle($adminId, $permissionId) {
+		$admin = self::getAdmin($adminId);
 
-		return $role;
+		$admin->roles()->toggle($permissionId);
+
+		return $admin;
 	}
 
-	public static function permissionAttach($id,$permissionId) {
-		$role= Role::find($id);
-		if($role==null)
-			throw new RoleNotFoundException();
+	public static function roleAttach($adminId, $permissionId) {
+		$admin = self::getAdmin($adminId);
 
-		$role->permissions()->attach($permissionId);
+		$admin->roles()->attach($permissionId);
 
-		return $role;
+		return $admin;
 	}
 
 
-	public static function permissionDetach($id,$permissionId) {
-		$role= Role::find($id);
-		if($role==null)
-			throw new RoleNotFoundException();
+	public static function roleDetach($adminId, $permissionId) {
+		$admin = self::getAdmin($adminId);
 
-		$role->permissions()->detach($permissionId);
+		$admin->roles()->detach($permissionId);
 
-		return $role;
-	}
-
-
-
-	public static function roleDetach($id,$permissionId) {
-		$role= Role::find($id);
-		if($role==null)
-			throw new RoleNotFoundException();
-
-		$role->permissions()->detach($permissionId);
-
-		return $role;
+		return $admin;
 	}
 
 
@@ -80,10 +78,36 @@ class Access {
 	}
 
 
-	public static function permissionsList($roleId=null) {
-		if($roleId==null){
+	public static function permissionToggle($roleId, $permissionId) {
+		$role = self::getRole($roleId);
+
+		$role->permissions()->toggle($permissionId);
+
+		return $role;
+	}
+
+	public static function permissionAttach($roleId, $permissionId) {
+		$role = self::getRole($roleId);
+
+		$role->permissions()->attach($permissionId);
+
+		return $role;
+	}
+
+
+	public static function permissionDetach($roleId, $permissionId) {
+		$role = self::getRole($roleId);
+
+		$role->permissions()->detach($permissionId);
+
+		return $role;
+	}
+
+
+	public static function permissionsList($roleId = null) {
+		if ($roleId == null) {
 			return Permission::get();
-		}else{
+		} else {
 			return Role::find($roleId)->permissions;
 
 		}
@@ -91,8 +115,8 @@ class Access {
 
 
 	public static function hasAccess($permissionName) {
-		$user=Auth::guard(Config::guard())->user();
-		return \Illuminate\Support\Facades\Gate::forUser($user)->allows('permission',$permissionName);
+		$user = Auth::guard(Config::guard())->user();
+		return \Illuminate\Support\Facades\Gate::forUser($user)->allows('permission', $permissionName);
 	}
 
 
