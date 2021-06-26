@@ -22,17 +22,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider {
 
 	private function publish(){
 		$this->publishes([
-			__DIR__.'/access_colbeh.php' => config_path(''),
-			__DIR__.'/Middleware/CheckPermission.php' => app_path('Http/Middleware'),
+			__DIR__.'/access_colbeh.php' => config_path('access_colbeh.php'),
+			__DIR__.'/Middleware/CheckPermission.php' => app_path('Http/Middleware/CheckPermission.php'),
 		], 'config');
 
 
 		$this->publishes([
-			__DIR__.'/seeders/PermissionsSeeder.php' => database_path('seeders'),
-			__DIR__.'/migrations/2021_01_01_000000_create_admin_role_table.php' => database_path('migrations'),
-			__DIR__.'/migrations/2021_01_01_000000_create_permission_role_table.php' => database_path('migrations'),
-			__DIR__.'/migrations/2021_01_01_000000_create_permissions_table.php' => database_path('migrations'),
-			__DIR__.'/migrations/2021_01_01_000000_create_roles_table.php' => database_path('migrations'),
+			__DIR__.'/seeders/PermissionsSeeder.php' => database_path('seeders/PermissionsSeeder.php'),
+			__DIR__.'/migrations/2021_01_01_000000_create_admin_role_table.php' => database_path('migrations/2021_01_01_000000_create_admin_role_table.php'),
+			__DIR__.'/migrations/2021_01_01_000000_create_permission_role_table.php' => database_path('migrations/2021_01_01_000000_create_permission_role_table.php'),
+			__DIR__.'/migrations/2021_01_01_000000_create_permissions_table.php' => database_path('migrations/2021_01_01_000000_create_permissions_table.php'),
+			__DIR__.'/migrations/2021_01_01_000000_create_roles_table.php' => database_path('migrations/2021_01_01_000000_create_roles_table.php'),
 		], 'database');
 	}
 
