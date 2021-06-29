@@ -2,6 +2,7 @@
 
 namespace Colbeh\Access;
 
+use Colbeh\Access\Exceptions\PermissionException;
 use Colbeh\Access\Exceptions\RoleNotFoundException;
 use Colbeh\Access\Models\Permission;
 use Colbeh\Access\Models\Role;
@@ -119,6 +120,12 @@ class Access {
 		return \Illuminate\Support\Facades\Gate::forUser($user)->allows('permission', $permissionName);
 	}
 
+
+	public static function checkAccess($permissionName) {
+		if(!self::hasAccess($permissionName)){
+			throw new PermissionException();
+		}
+	}
 
 }
 
