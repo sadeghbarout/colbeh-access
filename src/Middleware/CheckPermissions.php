@@ -42,10 +42,13 @@ class CheckPermissions
 
 
 	private function getTargetControllerAndMethod($request){
-		$target = $request->route()->getActionName();
+		$route = $request->route();
+		if($route==null)
+			return [null, null];
+
+		$target=$route->getActionName();
 
 		if(strpos($target, "@") === false)
-			return [null, null];
 
 
 		$targetParts = explode("@",$target);
