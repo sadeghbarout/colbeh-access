@@ -117,7 +117,7 @@ class Access {
 
 	public static function hasAccess($permissionName) {
 		$user = Auth::guard(Config::guard())->user();
-		return \Illuminate\Support\Facades\Gate::forUser($user)->allows('permission', $permissionName);
+		return \Illuminate\Support\Facades\Gate::forUser($user)->allows('permission', [$permissionName]);
 	}
 
 

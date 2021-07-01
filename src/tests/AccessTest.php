@@ -50,10 +50,20 @@ class AccessTest extends \Tests\TestCase
 	{
 		\Illuminate\Support\Facades\Auth::guard(\Colbeh\Access\Config::guard())->loginUsingId(1);
 		$user=\Illuminate\Support\Facades\Auth::guard(\Colbeh\Access\Config::guard())->user();
-		$user->roles()->attach(1);
+		$user->roles()->attach(2);
 
-		$hasPermission=\Colbeh\Access\Access::hasAccess('root');
+		$hasPermission=\Colbeh\Access\Access::hasAccess(['p2','p3']);
 		$this->assertTrue($hasPermission);
+	}
+
+	public function testCheckAccess()
+	{
+		\Illuminate\Support\Facades\Auth::guard(\Colbeh\Access\Config::guard())->loginUsingId(1);
+		$user=\Illuminate\Support\Facades\Auth::guard(\Colbeh\Access\Config::guard())->user();
+		$user->roles()->attach(2);
+
+		\Colbeh\Access\Access::checkAccess('p2');
+		$this->assertTrue(true);
 	}
 
 }
