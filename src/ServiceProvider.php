@@ -26,16 +26,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider {
 		], 'config');
 
 
-		$this->loadMigrationsFrom([
+		$this->publishes([
+			__DIR__.'/Middleware/CheckPermission.php' => app_path('Http/Middleware/CheckPermission.php'),
+			__DIR__.'/seeders/PermissionsSeeder.php' => database_path('seeders/PermissionsSeeder.php'),
 			__DIR__.'/migrations/2021_01_01_000000_create_admin_role_table.php' => database_path('migrations/2021_01_01_000000_create_admin_role_table.php'),
 			__DIR__.'/migrations/2021_01_01_000000_create_permission_role_table.php' => database_path('migrations/2021_01_01_000000_create_permission_role_table.php'),
 			__DIR__.'/migrations/2021_01_01_000000_create_permissions_table.php' => database_path('migrations/2021_01_01_000000_create_permissions_table.php'),
 			__DIR__.'/migrations/2021_01_01_000000_create_roles_table.php' => database_path('migrations/2021_01_01_000000_create_roles_table.php'),
-		]);
-
-		$this->publishes([
-			__DIR__.'/Middleware/CheckPermission.php' => app_path('Http/Middleware/CheckPermission.php'),
-			__DIR__.'/seeders/PermissionsSeeder.php' => database_path('seeders/PermissionsSeeder.php'),
 		], 'database');
 	}
 
