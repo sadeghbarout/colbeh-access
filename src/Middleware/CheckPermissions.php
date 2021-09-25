@@ -9,18 +9,17 @@ use Colbeh\Access\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckPermissions
-{
+class CheckPermissions {
 
 	protected $permissionRules;
 
-	public function handle(Request $request, Closure $next)
-	{
+	public function handle(Request $request, Closure $next) {
 
 
 		list($targetController, $targetMethod) = $this->getTargetControllerAndMethod($request);
 
-		if($targetController != null) {
+		// dd($targetController, $targetMethod);
+		if ($targetController != null) {
 
 			$requiredPermissions = $this->requiredPermissions($targetController, $targetMethod);
 
@@ -35,23 +34,22 @@ class CheckPermissions
 		}
 
 
-
 		return $next($request);
 	}
 
 
-
-	private function getTargetControllerAndMethod($request){
+	private function getTargetControllerAndMethod($request) {
 		$route = $request->route();
-		if($route==null)
+		if ($route == null)
 			return [null, null];
 
-		$target=$route->getActionName();
+		$target = $route->getActionName();
 
-		if(strpos($target, "@") === false)
+		if (strpos($target, "@") === false)
+			return [null, null];
 
 
-		$targetParts = explode("@",$target);
+		$targetParts = explode("@", $target);
 
 		$targetMethod = $targetParts[1];
 
@@ -61,16 +59,15 @@ class CheckPermissions
 	}
 
 
-	private function getControllerName($controllerPath){
-		$targetControllerParts = explode("\\",$controllerPath);
-		$targetController = $targetControllerParts[sizeof($targetControllerParts)-1];
+	private function getControllerName($controllerPath) {
+		$targetControllerParts = explode("\\", $controllerPath);
+		$targetController = $targetControllerParts[sizeof($targetControllerParts) - 1];
 
 		return $targetController;
 	}
 
 
-
-	private function getAdminPermissions(){
+	private function getAdminPermissions() {
 		$admin = Auth::guard(Config::guard())->user();
 
 		if ($admin == null)
@@ -80,38 +77,44 @@ class CheckPermissions
 	}
 
 
-	private function checkIfHasPermission($requiredPermissions, $adminPermissions){
+	private function checkIfHasPermission($requiredPermissions, $adminPermissions) {
 
-		$requiredPermissions[]='root';
-		$hasPermission =  null !== $adminPermissions->whereIn('name', $requiredPermissions)->first();
+		$requiredPermissions[] = 'root';
+		$hasPermission = null !== $adminPermissions->whereIn('name', $requiredPermissions)->first();
 
 		if (!$hasPermission)
 			throw new NotAllowedException();
 	}
 
 
-
-	private function requiredPermissions($targetController, $targetMethod){
-
+	private function requiredPermissions($targetController, $targetMethod) {
 
 
-
-
-
-		foreach($this->permissionRules as $controller => $permission){
+		foreach ($this->permissionRules as $controller => $permission) {
 
 			$controller = $this->getControllerName($controller);
 
-			if($controller == $targetController){
+			if ($controller == $targetController) {
 
-				if( !isset( $permission['except'] ))
-					return $permission['permissions'];
+				if (isset($permission['permMethods'])) {
+					$requiredPerms = [];
+
+					foreach ($permission['permMethods'] as $perm => $methods) {
+						if (in_array($targetMethod, $methods))
+							$requiredPerms[] = $perm;
+					}
+
+					return $requiredPerms;
+				} else {
+					if (!isset($permission['except']))
+						return $permission['permissions'];
 
 
-				if(! in_array($targetMethod, $permission['except']) ){
-					return $permission['permissions'];
-				}else{
-					return null;
+					if (!in_array($targetMethod, $permission['except'])) {
+						return $permission['permissions'];
+					} else {
+						return null;
+					}
 				}
 			}
 		}
@@ -119,7 +122,6 @@ class CheckPermissions
 		return null;
 
 	}
-
 
 
 }
