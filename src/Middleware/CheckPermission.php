@@ -23,12 +23,31 @@ class CheckPermission extends CheckPermissions
 
    protected $permissionRules = [
 
-	   Controller::class =>[
-			'permissions'=>['permissionName'],
-			'except'=>['methodName'],
-		],
+        Controller::class => [
+            'permissions' => ['permissionName'],
+            'except' => ['methodName'],
+        ],
 
-   ];
+        AdminController::class =>[
+            'permMethods'=>[
+                PERM_ADMIN_LIST_SHOW=> ['index','show'],
+                PERM_ADMIN_STORE=> ['store'],
+                PERM_ADMIN_UPDATE=> ['show','update', 'setNewPassword'],
+                PERM_ADMIN_DESTROY=> ['destroy'],
+                PERM_ADMIN_ROLE=> ['roleToggle'],
+            ],
+        ],
+
+        RoleController::class => [
+            'permMethods' => [
+                PERM_ROLE_LIST_SHOW => ['index', 'show'],
+                PERM_ROLE_STORE => ['store'],
+                PERM_ROLE_UPDATE => ['update', 'show'],
+                PERM_ROLE_DESTROY => ['destroy'],
+                PERM_ROLE_PERMISSION => ['permissionToggle'],
+            ],
+        ],
+    ];
 
 
 }
