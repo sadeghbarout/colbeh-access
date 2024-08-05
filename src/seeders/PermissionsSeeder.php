@@ -12,6 +12,17 @@ class PermissionsSeeder extends Seeder {
 		// root permission has access to everything
 		Permission::create(['name' => 'root','desc'=>'']);
 
+		Permission::create(['name' => PERM_ADMIN_LIST_SHOW,'desc'=>'مشاهده ادمین ها','section'=>'admin']);
+		Permission::create(['name' => PERM_ADMIN_STORE,'desc'=>'اضافه کردن ادمین','section'=>'admin']);
+		Permission::create(['name' => PERM_ADMIN_UPDATE,'desc'=>'ویرایش ادمین','section'=>'admin']);
+		Permission::create(['name' => PERM_ADMIN_DESTROY,'desc'=>'حذف ادمین','section'=>'admin']);
+		Permission::create(['name' => PERM_ADMIN_ROLE,'desc'=>'اطلاق نقش به ادمین','section'=>'admin']);
+		
+		Permission::create(['name' => PERM_ROLE_LIST_SHOW,'desc'=>'مشاهده نقش مدیران','section'=>'role']);
+		Permission::create(['name' => PERM_ROLE_STORE,'desc'=>'اضافه کردن نقش','section'=>'role']);
+		Permission::create(['name' => PERM_ROLE_UPDATE,'desc'=>'ویرایش نقش','section'=>'role']);
+		Permission::create(['name' => PERM_ROLE_DESTROY,'desc'=>'حذف نقش','section'=>'role']);
+		Permission::create(['name' => PERM_ROLE_PERMISSION,'desc'=>'ویرایش دسترسی های نقش','section'=>'role']);
 
 		// ...............................
 		// .. add your permissions here ..
