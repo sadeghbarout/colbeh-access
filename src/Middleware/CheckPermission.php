@@ -35,7 +35,7 @@ class CheckPermission extends CheckPermissions
 			'permMethods'=>[
 				PERM_ADMIN_LIST_SHOW=> ['index','show'],
 				PERM_ADMIN_STORE=> ['store'],
-				PERM_ADMIN_UPDATE=> ['show','update', 'setNewPassword'],
+				PERM_ADMIN_UPDATE=> ['show','update', 'setNewPassword', 'editing'],
 				PERM_ADMIN_DESTROY=> ['destroy'],
 				PERM_ADMIN_ROLE=> ['roleToggle'],
 			],
